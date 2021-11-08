@@ -2,9 +2,8 @@
 CLIからコマンドを使ってJobcan上で出勤・退勤の打刻を行うツール
 
 ## インストール
-下記の手順で実行してください
+リポジトリをクローンした後、下記の手順で実行してください
 ```bash
-git clone git@github.com:lv-technology-strategy/jobcan-cli.git
 yarn install
 yarn setup
 ```
