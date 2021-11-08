@@ -1,28 +1,42 @@
-import puppeteer from "puppeteer"
+import puppeteer, {Page} from "puppeteer"
 import {Credential, readCredential} from "../credential";
+import {login} from "../../lib/login";
+
+
+const TIMESTAMP_URL = "https://ssl.jobcan.jp/employee"
 
 export async function attend(credential: Credential): Promise<void> {
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
+    const page = await login(credential)
+
+    if (!(page instanceof Page)) {
+        return
+    }
 
     try {
-        await page.goto("https://id.jobcan.jp/users/sign_in")
-        await page.type("#user_email", credential.email)
-        await page.type("#user_password", credential.password)
-        await page.click("input[type=submit]")
-
-        if (page.url() != "https://id.jobcan.jp/account/profile") {
-            console.error("Failed to login. Please check your credential. execute next subcommand")
-            console.error(`auth current`)
-            return
-        }
-
-        await page.goto("https://ssl.jobcan.jp/employee")
+        await page.goto(TIMESTAMP_URL)
         // await page.click("#adit-button-work-start")
     } catch (err) {
         console.error(err)
         throw err
     } finally {
-        await browser.close()
+        await page.browser().close()
+    }
+}
+
+export async function exit(credential: Credential): Promise<void> {
+    const page = await login(credential);
+
+    if (!(page instanceof Page)) {
+        return
+    }
+
+    try {
+        await page.goto(TIMESTAMP_URL)
+        // await page.click("#adit-button-work-end")
+    } catch (err) {
+        console.error(err)
+        throw err
+    } finally {
+        await page.browser().close()
     }
 }
