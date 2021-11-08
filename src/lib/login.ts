@@ -7,7 +7,7 @@ const PROFILE_PAGE_URL = "https://id.jobcan.jp/account/profile"
 
 export async function login(credential: Credential): Promise<Page | Error> {
     const browser = await puppeteer.launch({
-        headless: false
+        headless: false,
     });
     const [page] = await browser.pages();
 
@@ -20,6 +20,8 @@ export async function login(credential: Credential): Promise<Page | Error> {
         if (page.url() != PROFILE_PAGE_URL) {
             console.error("Failed to login. Please check your credential. execute next subcommand")
             console.error(`auth current`)
+
+            page.browser().close()
 
             //TODO
             return new Error()

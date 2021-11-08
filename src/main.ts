@@ -9,6 +9,7 @@ const argv = yargs
     .command("auth <subcommand>", "configure your credential", b => {
         return b.command("configure", "configure your credential")
             .command("current", "show your current credential")
+            .command("login", "test login")
             .demandCommand(1)
     })
     .command("timestamp <subcommand>", "timestamp 出勤 or 退勤", b => {
@@ -33,6 +34,9 @@ switch (command) {
                 break
             case "current":
                 auth.current()
+                break
+            case "login":
+                auth.login()
                 break
         }
         break

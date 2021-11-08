@@ -1,5 +1,6 @@
 import {Credential, readCredential, writeCredential} from "../credential";
 import inquirer from "inquirer";
+import {login as loginToJobcan} from "../../lib/login";
 
 type CredentialField = keyof Credential
 
@@ -46,4 +47,23 @@ export async function configure(): Promise<void> {
 
         writeCredential(credential)
     })
+}
+
+export async function login(): Promise<void> {
+    const credential = await readCredential()
+
+    if (credential instanceof Error) {
+        console.error(credential.message)
+        return
+    }
+
+    const page = await loginToJobcan(credential)
+
+    if (page instanceof Error) {
+        return
+    }
+
+    console.error("login succeeded!")
+
+    await page.browser().close()
 }
