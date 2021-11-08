@@ -6,7 +6,9 @@ const LOGIN_PAGE_URL = "https://id.jobcan.jp/users/sign_in"
 const PROFILE_PAGE_URL = "https://id.jobcan.jp/account/profile"
 
 export async function login(credential: Credential): Promise<Page | Error> {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+        headless: false
+    });
     const [page] = await browser.pages();
 
     try {
