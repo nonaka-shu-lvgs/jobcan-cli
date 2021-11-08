@@ -1,9 +1,9 @@
-import puppeteer, {Page} from "puppeteer"
-import {Credential, readCredential} from "../credential";
+import {Page} from "puppeteer"
+import {Credential} from "../credential";
 import {login} from "../../lib/login";
 
 
-const TIMESTAMP_URL = "https://ssl.jobcan.jp/employee"
+export const TIMESTAMP_URL = "https://ssl.jobcan.jp/employee"
 
 export async function attend(credential: Credential): Promise<void> {
     const page = await login(credential)
