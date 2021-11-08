@@ -3,7 +3,7 @@ import * as readline from "readline"
 
 type CredentialField = keyof Credential
 
-export async function current() {
+export async function current(): Promise<void> {
     const credential = await readCredential()
     const emailTemplate = "E-Mail Address: %s"
     const passwordTemplate = "Password: %s"
