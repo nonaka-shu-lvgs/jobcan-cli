@@ -2,6 +2,7 @@ import * as yargs from "yargs"
 import * as auth from "./core/subcommands/auth"
 import * as timestamp from "./core/subcommands/timestamp"
 import {readCredential} from "./core/credential";
+import inquirer from "inquirer";
 
 
 const argv = yargs
@@ -44,19 +45,43 @@ switch (command) {
 
             switch (subcommand) {
                 case "attend":
-                    timestamp.attend(credential).then(() => {
-                        process.exit()
-                    }).catch(err => {
-                        console.error(err)
-                        process.exit(1)
+                    inquirer.prompt([
+                        {
+                            name: "confirm",
+                            message: "出勤の打刻を行います",
+                            type: "confirm"
+                        }
+                    ]).then(({confirm}) => {
+                        if (!confirm) {
+                            return
+                        }
+
+                        timestamp.attend(credential).then(() => {
+                            process.exit()
+                        }).catch(err => {
+                            console.error(err)
+                            process.exit(1)
+                        })
                     })
                     break
                 case "exit":
-                    timestamp.exit(credential).then(() => {
-                        process.exit()
-                    }).catch(err => {
-                        console.error(err)
-                        process.exit(1)
+                    inquirer.prompt([
+                        {
+                            name: "confirm",
+                            message: "退勤の打刻を行います",
+                            type: "confirm"
+                        }
+                    ]).then(({confirm}) => {
+                        if (!confirm) {
+                            return
+                        }
+
+                        timestamp.exit(credential).then(() => {
+                            process.exit()
+                        }).catch(err => {
+                            console.error(err)
+                            process.exit(1)
+                        })
                     })
                     break
             }

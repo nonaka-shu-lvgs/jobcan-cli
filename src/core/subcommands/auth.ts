@@ -1,5 +1,5 @@
 import {Credential, readCredential, writeCredential} from "../credential";
-import * as readline from "readline"
+import inquirer from "inquirer";
 
 type CredentialField = keyof Credential
 
@@ -15,7 +15,7 @@ export async function current(): Promise<void> {
     }
 
     console.error(emailTemplate, credential.email)
-    console.error(passwordTemplate, credential.password)
+    console.error(passwordTemplate, credential.password.split("").map(() => "*").join(""))
 }
 
 export async function configure(): Promise<void> {
@@ -28,30 +28,22 @@ export async function configure(): Promise<void> {
         }
     })()
 
-    const repl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout
+    inquirer.prompt([
+        {
+            name: "email",
+            type: "input",
+            message: "E-Mail Address:",
+            default: credential?.email
+        },
+        {
+            name: "password",
+            type: "password",
+            message: "Password:",
+            default: credential?.password
+        }
+    ]).then((res) => {
+        const credential = {...res} as Credential
+
+        writeCredential(credential)
     })
-
-    //TODO: refactor
-    repl.question(prompt("email", credential), email => {
-        repl.question(prompt("password", credential), password => {
-            const newCredential: Credential = {
-                email,
-                password
-            }
-
-            writeCredential(newCredential)
-            repl.close()
-        })
-    })
-}
-
-function prompt(field: CredentialField, credential?: Credential | undefined): string {
-    switch (field) {
-        case "email":
-            return `E-Mail Address [${credential?.email ?? "None"}]: `
-        case "password":
-            return `Password [${credential?.password ?? "None"}]: `
-    }
 }
