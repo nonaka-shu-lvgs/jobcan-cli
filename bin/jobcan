@@ -1,0 +1,6 @@
+#!/usr/bin/env node
+
+const path = require("path")
+const mainModulePath = path.resolve(__dirname, "../build/main")
+
+require(mainModulePath)

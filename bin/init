@@ -1,0 +1,11 @@
+#!/usr/bin/env node
+
+const path = require("path")
+const fs = require("fs/promises")
+
+if (path.basename(process.env.SHELL) === "zsh") {
+    const $PATH = `export PATH="${__dirname}:$PATH"\n`
+    fs.appendFile(`${process.env.HOME}/.zshrc`, $PATH)
+} else {
+    fs.appendFile(`${process.env.HOME}/.bashrc`, $PATH)
+}
