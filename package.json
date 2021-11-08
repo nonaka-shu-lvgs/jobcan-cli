@@ -1,0 +1,15 @@
+{
+  "name": "jobcan-cli",
+  "version": "0.1.0",
+  "description": "CLI tool for automate timestamping on JobCan",
+  "main": "index.js",
+  "repository": "git@github.com:nonaka-shu-lvgs/jobcan-cli.git",
+  "author": "shu.nonaka <shu.nonaka@leverages.jp>",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "@types/puppeteer": "^5.4.4",
+    "puppeteer": "^11.0.0",
+    "typescript": "^4.4.4"
+  }
+}
