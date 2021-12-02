@@ -91,4 +91,6 @@ switch (command) {
             }
         })
         break
+    default:
+        console.error(`jobcan: '${command}' is not a jobcan command. See 'jobcan -h'.`)
 }
